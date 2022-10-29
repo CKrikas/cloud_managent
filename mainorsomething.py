@@ -10,14 +10,14 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 admin_client = KafkaAdminClient(
-    api_version = (2, 0, 2),
     bootstrap_servers="localhost:9092", 
     client_id='kafkaclient'
 )
 
-topic_list = ["boxing", "gaming", "stocks", "nascar", "esports", "technology", "television", "greece"]
-#topic_list.append(NewTopic(name="example_topic", num_partitions=1, replication_factor=1))
-admin_client.create_topics(new_topics=topic_list, validate_only=False)
+topic_list = [NewTopic(name=topic, num_partitions=1, replication_factor=1) for topic in ["boxing", "gaming", "stocks", "nascar", "esports", "technology", "television", "greece"] if topic not in admin_client.list_topics()]
+
+
+admin_client.create_topics(new_topics=topic_list)
 
 def producerprocess():
     os.system('python3 producer.py') 

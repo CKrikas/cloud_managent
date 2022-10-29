@@ -4,9 +4,8 @@ from kafka import KafkaConsumer
 from pymongo import MongoClient 
 
 # generating the Kafka Consumer  
-my_consumer = KafkaConsumer(  
-    api_version = (2, 0, 2),
-    topics=["boxing", "gaming", "stocks", "nascar", "esports", "technology", "television", "greece"],  
+my_consumer = KafkaConsumer(
+    *["boxing", "gaming", "stocks", "nascar", "esports", "technology", "television", "greece"],  
     bootstrap_servers = ['localhost : 9092'], 
     client_id = 'kafkaclient', 
     auto_offset_reset = 'earliest',
@@ -15,7 +14,7 @@ my_consumer = KafkaConsumer(
     value_deserializer = lambda x : loads(x.decode('utf-8'))  
     ) 
 
-my_client = MongoClient('localhost : 27017')  
+my_client = MongoClient( 'localhost', 27017, username='root', password='example')  
 my_collection = my_client.db.test
 
 while(True):
