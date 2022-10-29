@@ -14,7 +14,7 @@ my_consumer = KafkaConsumer(
     value_deserializer = lambda x : loads(x.decode('utf-8'))  
     ) 
 
-my_client = MongoClient( 'localhost', 27017, username='root', password='example')  
+my_client = MongoClient( 'localhost', 27017)  
 my_collection = my_client.db.test
 
 while(True):
