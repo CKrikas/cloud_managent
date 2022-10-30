@@ -1,4 +1,5 @@
 # importing the required libraries  
+from sys import api_version
 from time import sleep  
 from json import dumps  
 from kafka import KafkaProducer 
@@ -27,7 +28,7 @@ def consumerprocess():
 
 print("Starting producer...")
 p1 = Process(target = producerprocess, args=())
-sleep(3)
+sleep(10)
 print("Starting consumer...")
 p2 = Process(target = consumerprocess, args=())
 

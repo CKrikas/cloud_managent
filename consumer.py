@@ -1,12 +1,13 @@
 # importing the required modules  
-from json import loads  
+from json import loads
+from sys import api_version  
 from kafka import KafkaConsumer  
 from pymongo import MongoClient 
 
 # generating the Kafka Consumer  
 my_consumer = KafkaConsumer(
     *["boxing", "gaming", "stocks", "nascar", "esports", "technology", "television", "greece"],  
-    bootstrap_servers = ['localhost : 9092'], 
+    bootstrap_servers = ['localhost:9092'],
     client_id = 'kafkaclient', 
     auto_offset_reset = 'earliest',
     group_id = 'consumers',
@@ -15,7 +16,7 @@ my_consumer = KafkaConsumer(
     ) 
 
 my_client = MongoClient( 'localhost', 27017)  
-my_collection = my_client.db.test
+my_collection = my_client.db.test #TODO fix mongo collections
 
 while(True):
     for message in my_consumer:  
