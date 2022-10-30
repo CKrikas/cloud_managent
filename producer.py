@@ -6,6 +6,7 @@ from json import dumps, load
 from kafka import KafkaProducer
 from dotenv import load_dotenv  
 import requests
+import json
 
 load_dotenv()
 
@@ -24,5 +25,6 @@ while(True):
         articles = requests.get(currenturl, headers={"Authorization":os.getenv('NEWSAPIKEY')})
         data = articles.json()
         my_producer.send(i, value = data)
+
     print("kafka producer did it's job, nice! Repeating in two hours\n")
     sleep(7200)
