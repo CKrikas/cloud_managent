@@ -9,7 +9,7 @@ from multiprocessing import Process
 import os
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
+
 admin_client = KafkaAdminClient(
     bootstrap_servers="localhost:9092", 
     client_id='kafkaclient'
@@ -28,7 +28,6 @@ def consumerprocess():
 
 print("Starting producer...")
 p1 = Process(target = producerprocess, args=())
-sleep(10)
 print("Starting consumer...")
 p2 = Process(target = consumerprocess, args=())
 
