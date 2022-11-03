@@ -24,21 +24,24 @@ while(True):
     for message in my_consumer:  
         message = message.value
         try:
-            middle = list((json.loads(message)).keys())[0]
-            bigstatement = 'my_client.kafkadb.'+middle+'.insert_one(json.loads(message)[list(json.loads(message).keys())[0]])'
-            eval(bigstatement)
+            topicname = list((json.loads(message)).keys())[0]
+            articles = json.loads(message)[topicname]['articles']
+            for article in articles:
+                article['source'] = article['source']['name']
+                query = {"title": article['title']}
+                cursor = my_client.kafkadb.topicname.find(query)
+                try: 
+                    cursor.next() #This either fails if the article isn't in the database therefore going into the except statement and adding it in or it skips it
+                except:
+                    bigstatement = 'my_client.kafkadb.'+topicname+'.insert_one(article)'
+                    eval(bigstatement)
         except:
             newmessage = json.loads(message)
             domaindata = json.loads(newmessage['sourcesdomainname'])
-
             for name in domaindata:
-                query = {name: {"$exists": True}}
-                cursor = my_client.kafkadb.sourcesdomainname.find(query)
                 try:
-                    cursor.next()
+                    my_client.kafkadb.sourcesdomainname.insert_one({"_id": name, "description": domaindata[name]})
                 except:
-                    myquery = {"foo":"bar"}
-                    newvalues = { "$set": { name: domaindata[name]}}
-                    my_client.kafkadb.sourcesdomainname.update_one(myquery, newvalues, upsert=True)
-        print("succesfully added to collection")
+                    continue
+        print("Successfully added to collection")
 

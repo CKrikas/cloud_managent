@@ -51,5 +51,5 @@ while(True):
             sourcedomains[name] = description
         sourcesdomainnameTopic['sourcesdomainname'] = json.dumps(sourcedomains) #same as before, send source domain dictionary with descriptions, in a dictionary where the key is the topic it belongs to and the value is the dictionary with the sources and the descriptions
         my_producer.send("sourcesdomainname", value = json.dumps(sourcesdomainnameTopic)) #sending source domain dictionary to the sourcedomains topic
-    print("kafka producer did it's job, nice! Repeating in two hours\n")
-    sleep(7203)
+    print("Kafka producer did it's job, nice! Repeating in two hours")
+    sleep(7201)
