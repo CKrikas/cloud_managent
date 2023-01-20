@@ -40,6 +40,8 @@ while(True):
             domaindata = json.loads(newmessage['sourcesdomainname'])
             for name in domaindata:
                 try:
+                    if domaindata[name] is None or 'refer to:' in domaindata[name] or domaindata[name]=='':
+                        domaindata[name] = 'No description available for this source domain name'
                     my_client.kafkadb.sourcesdomainname.insert_one({"_id": name, "description": domaindata[name]})
                 except:
                     continue

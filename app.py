@@ -35,8 +35,6 @@ def parse_request():
                 else:
                     descriptioncursor = my_client.kafkadb.sourcesdomainname.find_one({"_id":article['source']})
                     description = descriptioncursor['description']
-                    if description is None or 'refer to:' in description:
-                        description = 'No description available for this source domain name'
                     tempDict['description'] = description
                     tempDict['articles'] = [article]
                     articles[article['source']] = tempDict
