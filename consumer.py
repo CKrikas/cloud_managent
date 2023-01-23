@@ -23,7 +23,7 @@ my_client = MongoClient( 'localhost', 27017)
 while(True):
     for message in my_consumer:  
         message = message.value
-        try:
+        try: #try block sorts articles into their respective collections whereas except block sorts source domain names and their descriptions into the sourcesdomainname collection
             topicname = list((json.loads(message)).keys())[0]
             articles = json.loads(message)[topicname]['articles']
             for article in articles:
@@ -32,9 +32,11 @@ while(True):
                 cursor = my_client.kafkadb.topicname.find(query)
                 try: 
                     cursor.next() #This either fails if the article isn't in the database therefore going into the except statement and adding it in or it skips it
-                except:
+                except: #insert the article into its respective collection and also insert it into a collection that has ALL the artiles
                     bigstatement = 'my_client.kafkadb.'+topicname+'.insert_one(article)'
                     eval(bigstatement)
+                    article['topic'] = topicname
+                    insertintoAllArticlesCollection = my_client.kafkadb.allArticles.insert_one(article)
         except:
             newmessage = json.loads(message)
             domaindata = json.loads(newmessage['sourcesdomainname'])

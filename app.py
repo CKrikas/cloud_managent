@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request
 import json
 from pymongo import MongoClient 
 import time
+from bson import json_util
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 my_client = MongoClient( 'localhost', 27017) 
@@ -28,6 +30,8 @@ def parse_request():
             topicCollection = my_client['kafkadb'][keyword]
             cursor = topicCollection.find({})
             for article in cursor:
+                article['_id'] = json.loads(json_util.dumps(article['_id']))['$oid']
+                article['id'] = article['_id']
                 del article['_id']
                 tempDict = {}
                 if article['source'] in articles: # articles = {"source name": {"description":"the description", "articles": [articles]}}
@@ -54,8 +58,23 @@ def update_keywords():
 def completely_obliterate_user():
     uniqueID = request.args.get("id", default="")
     query = {"_id": uniqueID}
-    my_client.kafkadb.users.delete_one(query)
-    return 'Successfully delete user'
+    try:
+        my_client.kafkadb.users.delete_one(query)
+    except:
+        return 'User not found'
+    return 'Successfully deleted user'
+
+@app.route('/recommendation', methods = ['GET'])
+def recommend_article():
+    articleid = request.args.get("id", default="")
+    query = {"_id": articleid}
+    try:
+        article = my_client.kafkadb.recommendations.find_one(query)
+        query2 = {"_id": ObjectId(article['recommendation'])}
+        article2 = my_client.kafkadb.allArticles.find_one(query2)
+        return json.loads(json_util.dumps(article2))
+    except:
+        return 'Article not found'
 
 if __name__ == "__main__":
     app.run(host="localhost", port=7000, debug=True)
