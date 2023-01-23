@@ -64,7 +64,7 @@ def completely_obliterate_user():
         return 'User not found'
     return 'Successfully deleted user'
 
-@app.route('/recommendation', methods = ['GET'])
+@app.route('/recommendation', methods = ['GET']) #link example http://localhost:7000/recommendation?id=
 def recommend_article():
     articleid = request.args.get("id", default="")
     query = {"_id": articleid}

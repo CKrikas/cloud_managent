@@ -27,13 +27,13 @@ for article in cursor:
     topic = article['topic']
     if diff <= 86400:
         df[today][topic] = df[today][topic]+1
-    elif diff < 86400 and diff <= 172800:
+    elif diff > 86400 and diff <= 172800:
         df[days1ago][topic] = df[days1ago][topic] + 1
-    elif diff < 172800 and diff <= 259200:
+    elif diff > 172800 and diff <= 259200:
         df[days2ago][topic] = df[days2ago][topic] + 1
-    elif diff < 259200 and diff <= 345600:
+    elif diff > 259200 and diff <= 345600:
         df[days3ago][topic] = df[days3ago][topic] + 1
-    elif diff < 345600 and diff <= 432000:
+    elif diff > 345600 and diff <= 432000:
         df[days4ago][topic] = df[days4ago][topic] + 1
 
 
