@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 from pymongo import MongoClient 
 from datetime import timedelta
 from datetime import datetime
-import numpy as np
 import pandas as pd
 
 my_client = MongoClient( 'localhost', 27017)
@@ -41,10 +40,6 @@ for article in cursor:
 df = df.T
 ax = df.plot(kind='bar', stacked=True, title='Stacked Bar Graph', xlabel='Day', ylabel='Count')
 for c in ax.containers:
-
-    # Optional: if the segment is small or 0, customize the labels
     labels = [v.get_height() if v.get_height() > 0 else '' for v in c]
-    
-    # remove the labels parameter if it's not needed for customized labels
     ax.bar_label(c, labels=labels, label_type='center')
 plt.show()
