@@ -15,7 +15,7 @@ admin_client = KafkaAdminClient(
     client_id='kafkaclient'
 )
 
-topic_list = [NewTopic(name=topic, num_partitions=1, replication_factor=1) for topic in ["boxing", "gaming", "stocks", "nascar", "esports", "technology", "television", "greece", "sourcesdomainname"] if topic not in admin_client.list_topics()]
+topic_list = [NewTopic(name=topic, num_partitions=1, replication_factor=1) for topic in ["artificial_intelligence", "ai", "microsoft", "google", "chatgpt", "technology", "data_science", "deep_learning", "sourcesdomainname"] if topic not in admin_client.list_topics()]
 
 
 admin_client.create_topics(new_topics=topic_list)

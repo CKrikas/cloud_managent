@@ -8,35 +8,30 @@ from time import sleep
 
 # generating the Kafka Consumer  
 my_consumer = KafkaConsumer(
-    *["boxing", "gaming", "stocks", "nascar", "esports", "technology", "television", "greece", "sourcesdomainname"],  
+    *["artificial_intelligence", "ai", "microsoft", "google", "chatgpt", "technology", "data_science", "deep_learning", "sourcesdomainname"],  
     bootstrap_servers = ['localhost:9092'],
     client_id = 'kafkaclient', 
     auto_offset_reset = 'earliest',
     group_id = 'consumers',
     enable_auto_commit = True,    
     value_deserializer = lambda x : loads(x.decode('utf-8'))  
-    ) 
+) 
 
-my_client = MongoClient( 'localhost', 27017)  
+my_client = MongoClient('localhost', 27017)
 
-
-while(True):
-    for message in my_consumer:  
+while True:
+    for message in my_consumer:
         message = message.value
-        try: #try block sorts articles into their respective collections whereas except block sorts source domain names and their descriptions into the sourcesdomainname collection
-            topicname = list((json.loads(message)).keys())[0]
+        try:
+            topicname = list(json.loads(message).keys())[0]
             articles = json.loads(message)[topicname]['articles']
             for article in articles:
                 article['source'] = article['source']['name']
-                query = {"title": article['title']}
-                cursor = my_client.kafkadb.topicname.find(query)
-                try: 
-                    cursor.next() #This either fails if the article isn't in the database therefore going into the except statement and adding it in or it skips it
-                except: #insert the article into its respective collection and also insert it into a collection that has ALL the artiles
-                    bigstatement = 'my_client.kafkadb.'+topicname+'.insert_one(article)'
-                    eval(bigstatement)
+                query = {'url': article['url']}
+                if not my_client.kafkadb[topicname].count_documents(query):
+                    my_client.kafkadb[topicname].insert_one(article)
                     article['topic'] = topicname
-                    insertintoAllArticlesCollection = my_client.kafkadb.allArticles.insert_one(article)
+                    my_client.kafkadb.allArticles.insert_one(article)
         except:
             newmessage = json.loads(message)
             domaindata = json.loads(newmessage['sourcesdomainname'])
@@ -48,4 +43,3 @@ while(True):
                 except:
                     continue
         print("Successfully added to collection")
-

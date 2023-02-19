@@ -10,7 +10,7 @@ import json
 
 load_dotenv()
 
-keywords = ["boxing", "gaming", "stocks", "nascar", "esports", "technology", "television", "greece"]
+keywords = ["artificial_intelligence", "ai", "microsoft", "google", "chatgpt", "technology", "data_science", "deep_learning"]
 url = 'https://newsapi.org/v2/everything?q='
 url2 = 'https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro=True&explaintext=True&exsectionformat=plain&format=json&titles='
 
@@ -30,7 +30,7 @@ def findextract(obj, key):  #recursive function that finds a key and returns the
 
 while(True):
     for i in keywords:
-        currenturl = url+i
+        currenturl = url+i.replace("_", " ")
         articles = requests.get(currenturl, headers={"Authorization":os.getenv('NEWSAPIKEY')})
         data = {}
         data[i] = articles.json() #now each message will have the topic it belongs to in it
