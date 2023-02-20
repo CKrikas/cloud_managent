@@ -8,7 +8,10 @@ from time import sleep
 
 # generating the Kafka Consumer  
 my_consumer = KafkaConsumer(
-    *["artificial_intelligence", "ai", "microsoft", "google", "chatgpt", "technology", "data_science", "deep_learning", "sourcesdomainname"],  
+    *["artificial_intelligence", "ai", "microsoft", "google", "chatgpt", "technology", "data_science", "deep_learning",
+            "robotics", "automation", "cybersecurity", "blockchain", "fintech", "virtual_reality", "augmented_reality", "self_driving_cars",
+            "big_data", "cloud_computing", "quantum_computing", "apple", "computer_vision", "neural_networks", "amazon", "data_mining",
+             "tesla", "meta", "FANG", "FAANG", "bing", "layoffs", "twitter", "nanotechnology", "sourcesdomainname"],  
     bootstrap_servers = ['localhost:9092'],
     client_id = 'kafkaclient', 
     auto_offset_reset = 'earliest',

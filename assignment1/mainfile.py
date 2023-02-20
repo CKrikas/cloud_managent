@@ -15,7 +15,10 @@ admin_client = KafkaAdminClient(
     client_id='kafkaclient'
 )
 
-topic_list = [NewTopic(name=topic, num_partitions=1, replication_factor=1) for topic in ["artificial_intelligence", "ai", "microsoft", "google", "chatgpt", "technology", "data_science", "deep_learning", "sourcesdomainname"] if topic not in admin_client.list_topics()]
+topic_list = [NewTopic(name=topic, num_partitions=1, replication_factor=1) for topic in ["artificial_intelligence", "ai", "microsoft", "google", "chatgpt", "technology", "data_science", "deep_learning",
+            "robotics", "automation", "cybersecurity", "blockchain", "fintech", "virtual_reality", "augmented_reality", "self_driving_cars",
+            "big_data", "cloud_computing", "quantum_computing", "apple", "computer_vision", "neural_networks", "amazon", "data_mining",
+             "tesla", "meta", "FANG", "FAANG", "bing", "layoffs", "twitter", "nanotechnology", "sourcesdomainname"] if topic not in admin_client.list_topics()]
 
 
 admin_client.create_topics(new_topics=topic_list)
