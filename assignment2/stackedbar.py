@@ -15,7 +15,11 @@ today = datetime.today().day
 x = [days4ago, days3ago, days2ago, days1ago, today]
 
 cursor = my_client.kafkadb.allArticles.find()
-sums = {"boxing":0, "gaming":0, "stocks":0, "nascar":0, "esports":0, "technology":0, "television":0, "greece":0}
+keywords = ["artificial_intelligence", "ai", "microsoft", "google", "chatgpt", "technology", "data_science", "deep_learning",
+            "robotics", "automation", "cybersecurity", "blockchain", "fintech", "virtual_reality", "augmented_reality", "self_driving_cars",
+            "big_data", "cloud_computing", "quantum_computing", "apple", "computer_vision", "neural_networks", "amazon", "data_mining",
+             "tesla", "meta", "FANG", "FAANG", "bing", "layoffs", "twitter", "nanotechnology"]
+sums = {keyword: 0 for keyword in keywords}
 df = pd.DataFrame.from_dict(sums, orient='index')
 for day in x:
     df[day] = 0
